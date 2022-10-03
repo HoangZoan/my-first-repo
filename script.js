@@ -380,3 +380,105 @@ function calcAge(day, month, year) {
 
   return Math.floor(difference / 1000 / 60 / 60 / 24 / 365);
 }
+
+// Bài 23: Viết một hàm nhận tham số là một mảng gồm các số, hàm trả về true nếu trong mảng đó có 1 số chứa số 7, trả về false nếu không có số nào chứa số 7.
+function checkNumberSeven(inputArr) {
+  return inputArr.some((num) => String(num).indexOf("7") !== -1);
+}
+
+// Bài 24: Bài toán chia vàng. Hải và Tùng cùng đi tìm kiếm kho báu, 2 bạn đựng số châu báu mà mình kiếm được vào các túi lớn nhỏ lẫn lộn và nhét chúng vào trong một cái ống tre để đeo sau lưng. Khi chia số của cải, 2 người quy định là chặt lấy 2 đầu ống che, đầu nào lấy ra được túi vàng lớn hơn thì lấy túi vàng đó, lần lượt cho đến khi hết vàng trong ống. Cho ống tre là một mảng, số vàng trong túi là các phần tử trong mảng đó, viết hàm để chia ra số vàng mà 2 người nhận được theo cách phân chia trên.
+function distributeGold(pipe) {
+  let dist1 = 0;
+  let dist2 = 0;
+  const copyPipe = [...pipe];
+
+  while (copyPipe.length > 0) {
+    if (copyPipe[0] > copyPipe[copyPipe.length - 1]) {
+      dist1 += copyPipe.shift();
+    } else {
+      dist1 += copyPipe.pop();
+    }
+
+    if (copyPipe.length <= 0) {
+      break;
+    }
+
+    if (copyPipe[0] > copyPipe[copyPipe.length - 1]) {
+      dist2 += copyPipe.shift();
+    } else {
+      dist2 += copyPipe.pop();
+    }
+  }
+
+  return [dist1, dist2];
+}
+
+// Bài 25: Viết một hàm nhận tham số là một mảng và trả về độ dài của mảng đó, nếu phần tử của mảng đó là mảng thì tính cả phần tử con của mảng đó.
+function countNestedArray(inputArr) {
+  let count = 0;
+
+  for (const item of inputArr) {
+    if (Array.isArray(item)) {
+      count += countNestedArray(item);
+    } else {
+      count++;
+    }
+  }
+
+  return count;
+}
+
+// Bài 26: Viết một hàm nhận tham số là một số, hàm kiểm tra xem số đó có phải là kết quả của một giai thừa hay không?
+function isFactorial(number) {
+  let i = 1;
+  let count = 2;
+
+  while (i < number) {
+    i *= count;
+    count++;
+  }
+
+  return i === number;
+}
+
+// Bài 27: Viết một hàm nhận tham số là một chuỗi có định dạng như sau "SheWalksToTheBeach" và trả về kết quả "She Walks To The Beach".
+function insertWhitespace(string) {
+  const upperCaseIndexes = [0];
+  const splitedStrings = [];
+
+  for (let i = 1; i < string.length; i++) {
+    if (string[i] === string[i].toUpperCase()) {
+      upperCaseIndexes.push(i);
+    }
+  }
+
+  for (let j = 0; j < upperCaseIndexes.length; j++) {
+    let slice;
+
+    if (j === upperCaseIndexes.length - 1) {
+      slice = string.slice(upperCaseIndexes[j]);
+    } else {
+      slice = string.slice(upperCaseIndexes[j], upperCaseIndexes[j + 1]);
+    }
+
+    splitedStrings.push(slice);
+  }
+
+  return splitedStrings.join(" ");
+}
+
+// Bài 28: Viết một hàm sử dụng để tính tiền công của một nhân viên làm việc trong tuần. Tiền công mà bạn đó được trả là 10$ 1 giờ cho 8 tiếng làm việc, làm thêm giờ nhận 150% lương. Hàm nhận tham số là một mảng gồm giờ công mỗi ngày trong 1 tuần của bạn nhân viên đó và trả về số tiền công của tuần đó.
+function calcWeeklySalary(table) {
+  let result = 0;
+
+  for (const hours of table) {
+    if (hours === 0) {
+      continue;
+    }
+
+    const overTime = hours - 8;
+    result += 8 * 10 + overTime * 15;
+  }
+
+  return result;
+}
